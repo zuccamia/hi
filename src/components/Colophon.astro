@@ -1,0 +1,28 @@
+---
+// Left-column colophon: avatar, name, role, Where block, Now line.
+// Renders the same on every page so the identity persists across the site.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<aside class="colophon" aria-label="Site colophon">
+  <div class="colophon-header">
+    <img class="colophon-avatar" src={`${base}avatar.png`} alt="" width="44" height="44" />
+    <div>
+      <h1 class="colophon-name"><a href={base}>Norah Hoang</a></h1>
+      <p class="colophon-role">Backend engineer</p>
+    </div>
+  </div>
+
+  <div class="colophon-block">
+    <p class="colophon-block-label">Where</p>
+    <ul class="colophon-where" role="list">
+      <li class="where-current"><span class="where-marker" aria-hidden="true"></span>San Francisco <span class="where-note">·&nbsp;now</span></li>
+      <li>Tokyo</li>
+      <li>Hà Nội</li>
+    </ul>
+  </div>
+
+  <div class="colophon-now" aria-label="Currently">
+    <p><span class="colophon-now-label">Now:</span> Studying algorithms at Northeastern. Interviewing for SWE internships. Building Career Planner on the side.</p>
+  </div>
+</aside>

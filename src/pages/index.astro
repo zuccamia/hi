@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Colophon from '../components/Colophon.astro';
+import Bicycle from '../components/Bicycle.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<BaseLayout title="Norah Hoang">
+  <div class="page">
+    <Colophon />
+
+    <main id="main" class="content">
+
+      <section class="hero" aria-label="Introduction">
+        <p class="hero-thesis">
+          Backend engineer from Vietnam, four years in payments backend in Tokyo. Now in San Francisco.
+        </p>
+
+        <p class="hero-thinking" aria-live="polite" aria-atomic="true">
+          <span class="hero-thinking-label">Currently thinking about</span>
+          <span class="hero-thinking-item" id="thinking-item" data-index="0">can sql-wasm and file sync be enough for a real local-first app?</span>
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="about-heading">
+        <div class="section-header section-header--with-bicycle">
+          <span class="seal" aria-hidden="true"></span>
+          <span id="about-heading" class="label">About</span>
+          <Bicycle />
+        </div>
+
+        <div class="about-prose">
+          <p>
+            I grew up in Hà Nội, moved to Tokyo young, and picked up engineering at Le Wagon. Then I spent four years at KOMOJU, a Japanese payment gateway.
+          </p>
+          <p>
+            My work split between backend-heavy full-stack features and internal developer tooling. What I like most is the invisible-but-material improvement: the migration that makes a slow tool feel fast without anyone having to relearn it. Living in Japan taught me to see that as craft: the best-designed things don't announce themselves; you use them and don't notice the thought that made them feel natural.
+          </p>
+          <p>
+            At KOMOJU I noticed I was writing less code and reviewing more, as AI got better at the writing. Now, as a student, I use it as a colleague. For sketching, reasoning through tradeoffs, writing code once I know what I'm building. The mental model of the codebase has to be mine, not the AI's. Otherwise the second something breaks in production, I get to enjoy debugging code I don't remember writing.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="work-heading">
+        <div class="section-header">
+          <span class="seal" aria-hidden="true"></span>
+          <span id="work-heading" class="label">Selected work</span>
+        </div>
+
+        <ul class="compact-list" role="list">
+          <li class="compact">
+            <h3 class="compact-title"><a href={`${base}work/elasticsearch-migration/`}>Elasticsearch migration</a></h3>
+            <div class="compact-meta">KOMOJU · 2024</div>
+            <p class="compact-description">Moved payment search off MySQL onto an event-driven Elasticsearch pipeline. Latency and reliability, quietly.</p>
+          </li>
+          <li class="compact">
+            <h3 class="compact-title"><a href={`${base}work/qr-payments/`}>In-store QR payments</a></h3>
+            <div class="compact-meta">KOMOJU · 2025</div>
+            <p class="compact-description">A net-new in-store payment capability. Async coordination across terminal, gateway, and third-party provider, with fail-closed reconciliation.</p>
+          </li>
+          <li class="compact">
+            <h3 class="compact-title"><a href="https://github.com/zuccamia/ai201-project3-takemeter">TakeMeter</a></h3>
+            <div class="compact-meta">Coursework · 2026</div>
+            <p class="compact-description">Fine-tuned DistilBERT for four-way rhetorical classification. Recovered a class collapse with class-weighted loss.</p>
+          </li>
+          <li class="compact">
+            <h3 class="compact-title"><a href="https://github.com/zuccamia/career-planner">Career Planner</a></h3>
+            <div class="compact-meta">Personal · 2026</div>
+            <p class="compact-description">A Go web app I'm building end-to-end with Claude Code as the primary development driver.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section" aria-labelledby="reach-heading">
+        <div class="section-header">
+          <span class="seal" aria-hidden="true"></span>
+          <span id="reach-heading" class="label">Reach</span>
+        </div>
+        <ul class="reach-list" role="list">
+          <li><a href="mailto:hoang.ngu@northeastern.edu">hoang.ngu@northeastern.edu</a></li>
+          <li><a href="https://www.linkedin.com/in/norahoang/">LinkedIn</a></li>
+          <li><a href="https://github.com/zuccamia">GitHub</a></li>
+        </ul>
+        <p class="reach-note">Résumé available on request.</p>
+      </section>
+
+      <footer class="footer">
+        <span>© 2026 Norah Hoang</span>
+        <span>Built with Astro · Hosted on GitHub Pages</span>
+      </footer>
+
+    </main>
+  </div>
+</BaseLayout>

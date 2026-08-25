@@ -1,0 +1,243 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Backend engineer from Vietnam, four years in payments backend in Tokyo. Now in San Francisco." } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <link rel="icon" type="image/png" href={`${base}avatar.png`} />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Set the theme before body paints, to avoid a light-mode flash for dark-mode users. -->
+  <script is:inline>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var initial = stored || (systemDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', initial);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<button class="mode-toggle" id="modeToggle" type="button" aria-label="Toggle color theme">
+  <svg class="icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 3v1M12 20v1M4.2 4.2l.7.7M19.1 19.1l.7.7M3 12h1M20 12h1M4.2 19.8l.7-.7M19.1 4.9l.7-.7"/>
+  </svg>
+  <svg class="icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Delivery confirmation floater — positioned by JS during the bicycle ride. -->
+<div class="delivery-note" id="deliveryNote" role="status" aria-live="polite">
+  <span class="delivery-note-arrow" aria-hidden="true">✿</span>
+  <span>delivered</span>
+  <span class="delivery-note-arrow" aria-hidden="true">→</span>
+  <a class="delivery-note-link" id="deliveryNoteLink" href="https://drive.google.com/file/d/1gdnFQHO_rWKBeJJ9aGSwd2jLopVFxhxj/view?usp=sharing" target="_blank" rel="noopener">Résumé (PDF)</a>
+</div>
+
+<slot />
+
+<script>
+  // Mode toggle
+  (function () {
+    var toggle = document.getElementById('modeToggle');
+    var root = document.documentElement;
+    if (!toggle) return;
+    toggle.addEventListener('click', function () {
+      var current = root.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+  })();
+
+  // Rotating "Currently thinking about" — 7s per item, 800ms cross-fade,
+  // pause on hover/focus, respect prefers-reduced-motion.
+  (function () {
+    var items = [
+      'can sql-wasm and file sync be enough for a real local-first app?',
+      'how caching primitives work in Rust',
+      'ARC replacement, and whether the extra state is worth the wins',
+      'what AI is and isn\'t changing in software engineering',
+      'how to make my AI coding agent less of a forgetful junior engineer',
+      'AI-assisted workflows that don\'t fry my brain by end of day'
+    ];
+
+    var target = document.getElementById('thinking-item');
+    if (!target) return;
+
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var index = Math.floor(Math.random() * items.length);
+    target.textContent = items[index];
+
+    if (reducedMotion) return;
+
+    var container = target.closest('.hero-thinking');
+    if (!container) return;
+    var paused = false;
+
+    container.addEventListener('mouseenter', function () { paused = true; });
+    container.addEventListener('mouseleave', function () { paused = false; });
+    container.addEventListener('focusin', function () { paused = true; });
+    container.addEventListener('focusout', function () { paused = false; });
+
+    function schedule() { setTimeout(tick, 7000); }
+    function tick() {
+      if (paused) { schedule(); return; }
+      target.classList.add('fading');
+      setTimeout(function () {
+        index = (index + 1) % items.length;
+        target.textContent = items[index];
+        target.classList.remove('fading');
+        schedule();
+      }, 800);
+    }
+    schedule();
+  })();
+
+  // Bicycle delivery ride — click intercepts, animated journey with a
+  // pause at center + delivery note, PDF opens mid-pause, return trip.
+  (function () {
+    var link = document.getElementById('bicycleLink');
+    if (!link) return;
+
+    var block = link.closest('.section-header--with-bicycle');
+    if (!block) return;
+
+    var deliveryNote = document.getElementById('deliveryNote');
+
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var running = false;
+
+    link.addEventListener('click', function (event) {
+      if (reducedMotion) return;
+      event.preventDefault();
+      if (running) return;
+      running = true;
+
+      var rect = link.getBoundingClientRect();
+      var startLeft = rect.left;
+      var startTop = rect.top;
+      var bikeWidth = rect.width;
+      var bikeHeight = rect.height;
+
+      block.classList.add('is-delivering');
+      link.classList.add('is-delivering');
+
+      link.style.left = startLeft + 'px';
+      link.style.top = startTop + 'px';
+      link.style.transform = 'translateX(0)';
+      // Force a reflow so the initial state is committed before we animate.
+      // eslint-disable-next-line no-unused-expressions
+      link.offsetWidth;
+
+      // Stage 1: roll from origin to two-thirds across the viewport.
+      var centerX = window.innerWidth * 2 / 3 - bikeWidth / 2;
+      var toCenter = centerX - startLeft;
+      var stage1Duration = 1800;
+      link.style.transition = 'transform ' + stage1Duration + 'ms cubic-bezier(0.4, 0.05, 0.3, 1)';
+      link.style.transform = 'translateX(' + toCenter + 'px)';
+
+      // Pause phase: show delivery note, open PDF.
+      var pausePhase = 3000;
+      var pdfOpenDelay = stage1Duration + 200;
+
+      setTimeout(function () {
+        if (!deliveryNote) return;
+        var noteLeft = centerX + bikeWidth + 16;
+        var noteTop = startTop + bikeHeight / 2;
+        deliveryNote.style.left = noteLeft + 'px';
+        deliveryNote.style.top = noteTop + 'px';
+        deliveryNote.style.transform = 'translateY(-50%) translateY(4px)';
+        // eslint-disable-next-line no-unused-expressions
+        deliveryNote.offsetWidth;
+        deliveryNote.classList.add('is-visible');
+        deliveryNote.style.transform = 'translateY(-50%)';
+      }, stage1Duration);
+
+      var pdfOpened = false;
+      setTimeout(function () {
+        if (pdfOpened) return;
+        pdfOpened = true;
+        window.open(link.href, '_blank', 'noopener');
+      }, pdfOpenDelay);
+
+      setTimeout(function () {
+        if (!deliveryNote) return;
+        deliveryNote.classList.remove('is-visible');
+        deliveryNote.style.transform = 'translateY(-50%) translateY(4px)';
+      }, stage1Duration + pausePhase - 200);
+
+      // Stage 2: continue to right edge.
+      var stage2Start = stage1Duration + pausePhase;
+      var stage2Duration = 1200;
+      setTimeout(function () {
+        var toEdge = window.innerWidth - startLeft + 20;
+        link.style.transition = 'transform ' + stage2Duration + 'ms cubic-bezier(0.5, 0, 0.7, 0.3)';
+        link.style.transform = 'translateX(' + toEdge + 'px)';
+      }, stage2Start);
+
+      // Return trip: teleport to off-left, roll back to origin.
+      var returnStart = stage2Start + stage2Duration + 400;
+      var returnDuration = 2500;
+      setTimeout(function () {
+        link.style.transition = 'none';
+        link.style.transform = 'translateX(' + (-startLeft - 100) + 'px)';
+        // eslint-disable-next-line no-unused-expressions
+        link.offsetWidth;
+        link.style.transition = 'transform ' + returnDuration + 'ms cubic-bezier(0.4, 0.05, 0.3, 1)';
+        link.style.transform = 'translateX(0)';
+      }, returnStart);
+
+      // Cleanup: restore normal flow.
+      setTimeout(function () {
+        link.style.transition = '';
+        link.style.transform = '';
+        link.style.left = '';
+        link.style.top = '';
+        block.classList.remove('is-delivering');
+        link.classList.remove('is-delivering');
+        if (deliveryNote) {
+          deliveryNote.style.left = '';
+          deliveryNote.style.top = '';
+          deliveryNote.style.transform = '';
+        }
+        running = false;
+      }, returnStart + returnDuration + 100);
+    });
+
+    link.addEventListener('keydown', function (event) {
+      if (event.key === ' ') {
+        event.preventDefault();
+        link.click();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

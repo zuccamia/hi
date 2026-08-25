@@ -1,0 +1,41 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Colophon from '../components/Colophon.astro';
+
+// This layout wraps markdown case studies. Fields in the .md frontmatter
+// (title, eyebrow, meta, description) become props here.
+export interface Props {
+  frontmatter: {
+    title: string;
+    eyebrow: string;
+    meta: string;
+    description?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+const pageTitle = `${frontmatter.title} — Norah Hoang`;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<BaseLayout title={pageTitle} description={frontmatter.description}>
+  <div class="page">
+    <Colophon />
+
+    <main id="main" class="content">
+      <article class="case-study">
+        <header class="case-study-header">
+          <span class="case-study-eyebrow">{frontmatter.eyebrow}</span>
+          <h1 class="case-study-title">{frontmatter.title}</h1>
+          <p class="case-study-meta">{frontmatter.meta}</p>
+        </header>
+
+        <div class="case-study-prose">
+          <slot />
+        </div>
+
+        <a href={base} class="case-study-back">Back home</a>
+      </article>
+    </main>
+  </div>
+</BaseLayout>
