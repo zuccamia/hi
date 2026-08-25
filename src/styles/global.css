@@ -329,8 +329,10 @@ em { font-style: italic; }
   height: 1px;
   background: var(--rule);
 }
-.section-header--with-bicycle > .seal,
-.section-header--with-bicycle > .label {
+.section-header--with-bicycle > .section-header-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   margin-bottom: 0.35rem;
 }
 .section-header--with-bicycle .signature-mark {
@@ -700,8 +702,7 @@ em { font-style: italic; }
   .signature-mark svg { width: 56px; }
   .section-header--with-bicycle { height: 2.9rem; }
   .section-header--with-bicycle .signature-mark { margin-bottom: 0.4rem; }
-  .section-header--with-bicycle > .seal,
-  .section-header--with-bicycle > .label { margin-bottom: 0.28rem; }
+  .section-header--with-bicycle > .section-header-label { margin-bottom: 0.28rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
