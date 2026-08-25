@@ -32,13 +32,13 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
         <div class="about-prose">
           <p>
-            I grew up in Hà Nội, moved to Tokyo young, and picked up engineering at Le Wagon. Then I spent four years at KOMOJU, a Japanese payment gateway.
+            I grew up in <span class="about-highlight">Hà Nội</span>, moved to <span class="about-highlight">Japan</span> young, and picked up engineering at Le Wagon. Then I spent four years at KOMOJU, a Japanese payment gateway.
           </p>
           <p>
-	    Payments are a good domain for learning careful engineering: mistakes have money attached to them, retries have to be idempotent, and state has to be correct after every failure mode you can name. My work split between backend-heavy full-stack features and internal developer tooling. What I like most is the invisible-but-material improvement: the migration that makes a slow tool feel fast without anyone having to relearn it. Living in Japan taught me to see that as craft: the best-designed things don't announce themselves; you use them and don't notice the thought that made them feel natural.
+            <span class="about-highlight">Payments</span> are a good domain for learning careful engineering: mistakes have money attached to them, retries have to be idempotent, and state has to be right when things go wrong, which they will. My work split between backend-heavy full-stack features and internal developer tooling, with constant vigilance for PII protection and auditability. What I like most is the invisible-but-material improvement: the migration that makes a slow tool feel fast without anyone having to relearn it. Living in Japan taught me to see that as craft: the best-designed things don't announce themselves; you use them and don't notice the thought that made them feel natural.
           </p>
           <p>
-	    At KOMOJU I was writing less code and reviewing more as AI improved. Now as a student I use it to think alongside me: for sketching, reasoning through tradeoffs, writing code once I know what I'm building. The mental model of the codebase has to be mine, not the AI's. Otherwise the second something breaks in production, I'd get to enjoy debugging code I don't remember writing.
+            At <span class="about-highlight">KOMOJU</span> I was writing less code and reviewing more as AI improved. Now as a student I use it to think alongside me: for sketching, reasoning through tradeoffs, writing code once I know what I'm building. The mental model of the codebase has to be mine, not the AI's. Otherwise the second something breaks in production, I get to enjoy debugging code I don't remember writing.
           </p>
         </div>
       </section>
@@ -51,12 +51,12 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
         <ul class="compact-list" role="list">
           <li class="compact">
-            <h3 class="compact-title"><a href={`${base}work/elasticsearch-migration/`}>Elasticsearch migration</a></h3>
+            <h3 class="compact-title"><a href={`${base}writing/elasticsearch-migration/`}>Elasticsearch migration</a></h3>
             <div class="compact-meta">KOMOJU · 2024</div>
             <p class="compact-description">Moved payment search off MySQL onto an event-driven Elasticsearch pipeline. Latency and reliability, quietly.</p>
           </li>
           <li class="compact">
-            <h3 class="compact-title"><a href={`${base}work/qr-payments/`}>In-store QR payments</a></h3>
+            <h3 class="compact-title"><a href={`${base}writing/qr-payments/`}>In-store QR payments</a></h3>
             <div class="compact-meta">KOMOJU · 2025</div>
             <p class="compact-description">A net-new in-store payment capability. Async coordination across terminal, gateway, and third-party provider, with fail-closed reconciliation.</p>
           </li>

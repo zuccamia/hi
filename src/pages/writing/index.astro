@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Colophon from '../../components/Colophon.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<BaseLayout title="Writing — Norah Hoang">
+  <div class="page">
+    <Colophon />
+
+    <main id="main" class="content">
+
+      <section class="section" aria-labelledby="writing-heading">
+        <div class="section-header">
+          <span class="seal" aria-hidden="true"></span>
+          <span id="writing-heading" class="label">Writing</span>
+        </div>
+
+        <ul class="compact-list" role="list">
+          <li class="compact">
+            <h3 class="compact-title"><a href={`${base}writing/qr-payments/`}>In-store QR payments</a></h3>
+            <div class="compact-meta">KOMOJU · 2025</div>
+            <p class="compact-description">A net-new in-store payment capability. Async coordination across terminal, gateway, and third-party provider, with fail-closed reconciliation.</p>
+          </li>
+          <li class="compact">
+            <h3 class="compact-title"><a href={`${base}writing/elasticsearch-migration/`}>Elasticsearch migration</a></h3>
+            <div class="compact-meta">KOMOJU · 2024</div>
+            <p class="compact-description">Moved payment search off MySQL onto an event-driven Elasticsearch pipeline. Latency and reliability, quietly.</p>
+          </li>
+        </ul>
+      </section>
+
+      <a href={base} class="case-study-back">Back home</a>
+
+    </main>
+  </div>
+</BaseLayout>
