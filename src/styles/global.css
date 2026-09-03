@@ -471,6 +471,19 @@ em { font-style: italic; }
   line-height: 1.55;
 }
 
+.compact-stack {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--ink-subtle);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+.compact-stack .stack-tag {
+  color: var(--foliage);
+}
+
 /* =====================================================================
    Reach — sits at bottom of content column as CTA moment
    ===================================================================== */
