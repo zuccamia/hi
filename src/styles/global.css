@@ -793,6 +793,77 @@ em { font-style: italic; }
   padding: 0.1em 0.3em;
   border-radius: 3px;
 }
+.case-study-prose pre {
+  margin: 0 0 1.25rem;
+  padding: 0.9rem 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.case-study-prose pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+.case-study-prose blockquote {
+  margin: 0 0 1.25rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--rule);
+  color: var(--ink-muted);
+}
+/* =====================================================================
+   Notes series — intro line, empty state, prev/next pager
+   ===================================================================== */
+
+.series-intro,
+.series-empty {
+  margin: 0 0 0.5rem;
+  color: var(--ink-muted);
+  max-width: 55ch;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+.series-empty {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--ink-subtle);
+}
+.note-series-link {
+  color: inherit;
+  background: none;
+  padding: 0;
+}
+.note-series-link:hover { color: var(--accent); }
+.note-pager {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+.note-pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: none;
+  padding: 0;
+}
+.note-pager-next { text-align: right; }
+.note-pager-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1rem;
+  color: var(--ink-strong);
+}
+.note-pager-link:hover .note-pager-title { color: var(--accent); }
+
+/* Shiki renders both themes as CSS variables; follow the site theme toggle. */
+[data-theme="dark"] .astro-code,
+[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
 .case-study-back {
   display: inline-flex;
   align-items: center;

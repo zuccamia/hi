@@ -80,12 +80,12 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   // pause on hover/focus, respect prefers-reduced-motion.
   (function () {
     var items = [
-      'can sql-wasm and file sync be enough for a real local-first app?',
-      'how caching primitives work in Rust',
-      'ARC replacement, and whether the extra state is worth the wins',
-      'what AI is and isn\'t changing in software engineering',
-      'how to make my AI coding agent less of a forgetful junior engineer',
-      'AI-assisted workflows that don\'t fry my brain by end of day'
+      'whether sql-wasm and file sync are enough for a real local-first app',
+      'how a buffer pool decides which page to evict',
+      'ARC vs. LRU for cache eviction, and whether the extra bookkeeping pays off',
+      'why B+trees still win over LSM trees for some workloads',
+      'what idempotency looks like outside of payments',
+      'what AI is and isn\'t changing in software engineering'
     ];
 
     var target = document.getElementById('thinking-item');

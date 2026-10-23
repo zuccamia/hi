@@ -9,5 +9,11 @@ export default defineConfig({
   trailingSlash: 'ignore',
   build: {
     format: 'directory'
+  },
+  markdown: {
+    // Dual themes so code blocks follow the site's light/dark toggle (see global.css).
+    shikiConfig: {
+      themes: { light: 'github-light', dark: 'github-dark' }
+    }
   }
 });

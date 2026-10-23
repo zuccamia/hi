@@ -1,8 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Colophon from '../../components/Colophon.astro';
+import { getNotes, SERIES_TITLE, SERIES_PATH, formatPart } from '../../lib/db-internals';
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const seriesHref = `${base}${SERIES_PATH}`;
+// Newest three notes, latest first.
+const latestNotes = (await getNotes({ includeDrafts: false })).slice(-3).reverse();
 ---
 
 <BaseLayout title="Writing — Norah Hoang">
@@ -11,10 +15,10 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
     <main id="main" class="content">
 
-      <section class="section" aria-labelledby="writing-heading">
+      <section class="section" aria-labelledby="case-studies-heading">
         <div class="section-header">
           <span class="seal" aria-hidden="true"></span>
-          <span id="writing-heading" class="label">Writing</span>
+          <span id="case-studies-heading" class="label">Case studies</span>
         </div>
 
         <ul class="compact-list" role="list">
@@ -32,6 +36,29 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
           </li>
         </ul>
       </section>
+
+      {latestNotes.length > 0 && (
+        <section class="section" aria-labelledby="db-internals-heading">
+          <div class="section-header">
+            <span class="seal" aria-hidden="true"></span>
+            <span id="db-internals-heading" class="label">Notes · {SERIES_TITLE}</span>
+          </div>
+
+          <p class="series-intro">
+            Working notes from learning how databases work underneath. <a href={seriesHref}>All notes</a>
+          </p>
+
+          <ul class="compact-list" role="list">
+            {latestNotes.map((note) => (
+              <li class="compact">
+                <h3 class="compact-title"><a href={`${seriesHref}${note.id}/`}>{note.data.title}</a></h3>
+                <div class="compact-meta">{formatPart(note.data.part)}</div>
+                {note.data.description && <p class="compact-description">{note.data.description}</p>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <a href={base} class="case-study-back">Back home</a>
 

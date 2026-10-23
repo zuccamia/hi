@@ -1,0 +1,23 @@
+---
+import { render } from 'astro:content';
+import NoteLayout from '../../../layouts/NoteLayout.astro';
+import { getNotes } from '../../../lib/db-internals';
+
+export async function getStaticPaths() {
+  const notes = await getNotes();
+  return notes.map((note, i) => {
+    const neighbour = (n?: typeof note) => n && { id: n.id, title: n.data.title };
+    return {
+      params: { slug: note.id },
+      props: { note, prev: neighbour(notes[i - 1]), next: neighbour(notes[i + 1]) },
+    };
+  });
+}
+
+const { note, prev, next } = Astro.props;
+const { Content } = await render(note);
+---
+
+<NoteLayout {...note.data} prev={prev} next={next}>
+  <Content />
+</NoteLayout>

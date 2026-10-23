@@ -1,0 +1,70 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Colophon from '../components/Colophon.astro';
+import { SERIES_TITLE, SERIES_PATH, formatPart, formatDate } from '../lib/db-internals';
+
+// Wraps a single note in the database internals series. The page route
+// passes in the note's frontmatter plus its neighbours for prev/next links.
+interface Neighbour {
+  id: string;
+  title: string;
+}
+
+export interface Props {
+  title: string;
+  part: number;
+  date: Date;
+  source?: string | null;
+  description: string;
+  draft: boolean;
+  prev?: Neighbour;
+  next?: Neighbour;
+}
+
+const { title, part, date, source, description, draft, prev, next } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const seriesHref = `${base}${SERIES_PATH}`;
+---
+
+<BaseLayout title={`${title} — Norah Hoang`} description={description}>
+  <div class="page">
+    <Colophon />
+
+    <main id="main" class="content">
+      <article class="case-study">
+        <header class="case-study-header">
+          <span class="case-study-eyebrow">
+            <a href={seriesHref} class="note-series-link">{SERIES_TITLE}</a> · {formatPart(part)}{draft && ' · Draft'}
+          </span>
+          <h1 class="case-study-title">{title}</h1>
+          <p class="case-study-meta">
+            <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date)}</time>{source && ` · ${source}`}
+          </p>
+        </header>
+
+        <div class="case-study-prose">
+          <slot />
+        </div>
+
+        {(prev || next) && (
+          <nav class="note-pager" aria-label="Series navigation">
+            {prev ? (
+              <a href={`${seriesHref}${prev.id}/`} class="note-pager-link note-pager-prev">
+                <span class="label">Previous</span>
+                <span class="note-pager-title">{prev.title}</span>
+              </a>
+            ) : <span />}
+            {next && (
+              <a href={`${seriesHref}${next.id}/`} class="note-pager-link note-pager-next">
+                <span class="label">Next</span>
+                <span class="note-pager-title">{next.title}</span>
+              </a>
+            )}
+          </nav>
+        )}
+
+        <a href={seriesHref} class="case-study-back">All notes</a>
+      </article>
+    </main>
+  </div>
+</BaseLayout>
